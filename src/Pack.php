@@ -10,6 +10,7 @@ namespace Pack;
 
 
 use Pack\Protocols\PackInterface;
+use Pack\Protocols\Protocol;
 use Pack\Protocols\ProtocolInterface;
 
 /**
@@ -22,16 +23,20 @@ class Pack implements PackInterface
      * 解析二进制数据
      *
      * @param string $buffer 二进制数据
-     * @param ProtocolInterface $protocol 解析模板
+     * @param Protocol $protocol 解析模板
      * @return ProtocolInterface
      */
-    public static function decode(&$buffer, ProtocolInterface $protocol):ProtocolInterface
+    public static function decode(&$buffer, Protocol $protocol):ProtocolInterface
     {
         $arrData = [];
-        $types  = $protocol->getTypes();
+        $types  = $protocol->messageTypes;
         /** @var \Pack\Types\Types $type */
         foreach ($types as $name=>$type){
-            $arrData[$name] = $type->unpack($buffer);
+            if( $type instanceof Protocol){
+                $arrData[$name] = self::decode($buffer,$type)->getMessage();
+            }else{
+                $arrData[$name] = $type->unpack($buffer);
+            }
         }
         $protocol->setMessage($arrData);
         return clone $protocol;
@@ -40,18 +45,22 @@ class Pack implements PackInterface
     /**
      * 把数据格式化成二进制流
      *
-     * @param ProtocolInterface $protocol 解析模板
+     * @param Protocol $protocol 解析模板
      * @return string
      */
-    public static function encode(ProtocolInterface $protocol):string
+    public static function encode(Protocol $protocol):string
     {
         $string = '';
-        $types  = $protocol->getTypes();
+        $types  = $protocol->messageTypes;
         $arr    = $protocol->getMessage();
         /** @var \Pack\Types\Types $type */
         foreach ($types as $type){
             $value  = current($arr);
-            $string .= $type->pack($value);
+            if( $type instanceof Protocol){
+                $string .= self::encode($type);
+            }else{
+                $string .= $type->pack($value);
+            }
             next($arr);
         }
         return $string;

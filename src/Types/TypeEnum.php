@@ -13,6 +13,7 @@ class TypeEnum extends Types
 {
     public $len = 0;
     public $enum = [];
+
     private $format;
     private $formatLen = 1;
 
@@ -21,7 +22,7 @@ class TypeEnum extends Types
         $this->enum = $arr;
         $this->len  = count($arr);
 
-        $this->format = 'c1';
+        $this->format = 'a'.$this->formatLen;
     }
 
     public function pack($data): string
@@ -33,6 +34,6 @@ class TypeEnum extends Types
     {
         $body   = unpack($this->format, $buffer)[1];
         $buffer = substr($buffer, $this->formatLen);
-        return $this->enum[$body];
+        return $this->enum[$body]??end($this->enum);
     }
 }

@@ -8,35 +8,38 @@
 
 namespace Pack\Protocols;
 
-
-use Pack\Protocols\ProtocolInterface;
 use Pack\Types\TypeArray;
 
 abstract class Protocol implements ProtocolInterface
 {
+    /** @var array 类型定义 */
+    public $messageTypes = [];
+
     public function __construct(array $data = [])
     {
-        if( $data ){
+        $this->messageTypes = $this->getTypes();
+
+        if ($data) {
             $this->setMessage($data);
         }
     }
 
     public function setMessage(array $data)
     {
-        $arrTypes = $this->getTypes();
-        foreach ($data as $name=>$typeData){
+        $arrTypes = $this->messageTypes;
+        foreach ($data as $name => $typeData) {
             $name = key($arrTypes);
             $type = current($arrTypes);
-            if( $type instanceof ProtocolInterface){
+            if ($type instanceof ProtocolInterface) {
                 $type->setMessage($typeData);
                 $this->{$name} = $type->getMessage();
-            }elseif ($type instanceof TypeArray){
-                foreach ($typeData as $datum){
+            } elseif ($type instanceof TypeArray) {
+                foreach ($typeData as $datum) {
                     $protocolType = $type->protocolType;
                     $protocolType->setMessage($datum);
                     $this->{$name}[] = $protocolType->getMessage();
                 }
-            }else{
+            } else {
                 $this->{$name} = $typeData;
             }
             next($arrTypes);
@@ -45,12 +48,12 @@ abstract class Protocol implements ProtocolInterface
 
     public function getMessage(): array
     {
-        $arrTypes = $this->getTypes();
-        $arrData = [];
-        foreach ($arrTypes as $name=>$type){
-            if( $type instanceof ProtocolInterface){
+        $arrTypes = $this->messageTypes;
+        $arrData  = [];
+        foreach ($arrTypes as $name => $type) {
+            if ($type instanceof ProtocolInterface) {
                 $arrData[$name] = $type->getMessage();
-            }else{
+            } else {
                 $arrData[$name] = $this->{$name};
             }
         }

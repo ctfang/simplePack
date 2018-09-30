@@ -19,16 +19,16 @@ interface PackInterface
      * 解析二进制数据
      *
      * @param string $buffer 二进制数据
-     * @param ProtocolInterface $protocol 解析模板
+     * @param Protocol $protocol 解析模板
      * @return ProtocolInterface
      */
-    public static function decode(&$buffer, ProtocolInterface $protocol):ProtocolInterface ;
+    public static function decode(&$buffer, Protocol $protocol):ProtocolInterface ;
 
     /**
      * 把数据格式化成二进制流
      *
-     * @param ProtocolInterface $protocol 解析模板
+     * @param Protocol $protocol 解析模板
      * @return array
      */
-    public static function encode(ProtocolInterface $protocol):string ;
+    public static function encode(Protocol $protocol):string ;
 }

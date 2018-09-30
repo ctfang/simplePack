@@ -10,13 +10,14 @@ namespace Pack\Types;
 
 
 use Pack\Pack;
-use Pack\Protocols\ProtocolInterface;
+use Pack\Protocols\Protocol;
 
 class TypeArray extends Types
 {
+    /** @var Protocol  */
     public $protocolType;
 
-    public function __construct(ProtocolInterface $type)
+    public function __construct(Protocol $type)
     {
         $this->protocolType = $type;
     }

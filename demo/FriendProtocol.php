@@ -6,7 +6,6 @@
  * Time: 14:31
  */
 
-use Pack\Protocols\ProtocolInterface;
 use Pack\Types;
 
 class FriendProtocol extends Pack\Protocols\Protocol

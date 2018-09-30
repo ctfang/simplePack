@@ -26,9 +26,9 @@ $user = [
             'sex'  => 0,
         ]
     ],
-    'friend333' => [
+    'array_1' => [
         [
-            '1'   => '李1',
+            'name'   => '李1',
             'age' => 19,
             'sex' => 1,
         ],
@@ -38,7 +38,13 @@ $user = [
             'sex'  => 0,
         ]
     ],
+    'obj' => [
+        'name'   => 'obj',
+        'age' => 19,
+        'sex' => 1,
+    ],
     'time'   => time(),
+    'online'   => false,
 ];
 
 $proPack = new UserProtocol($user);
@@ -52,3 +58,4 @@ echo "pack len=" . strlen($unpack) . "\n";
 $proPack  = new UserProtocol();
 $user     = \Pack\Pack::decode($unpack, $proPack);
 var_dump($user);
+echo time();

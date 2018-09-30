@@ -8,7 +8,10 @@
 
 namespace Pack\Types;
 
-
+/**
+ * 定长字符
+ * @package Pack\Types
+ */
 class TypeChar extends Types
 {
     public $len = 0;
