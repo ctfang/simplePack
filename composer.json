@@ -1,5 +1,5 @@
 {
-  "name": "ctfang/simplePack",
+  "name": "ctfang/simple-pack",
   "license": "MIT",
   "description": "二进制交互规范",
   "homepage": "https://github.com/ctfang/simplePack",
@@ -11,12 +11,6 @@
   "autoload": {
     "psr-4": {
       "Pack\\": "src/"
-    }
-  },
-  "repositories":  {
-    "packagist": {
-      "type": "composer",
-      "url": "https://packagist.phpcomposer.com"
     }
   }
 }
